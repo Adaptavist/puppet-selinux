@@ -17,6 +17,21 @@ class selinux::params {
           $sx_fs_mount = '/sys/fs/selinux'
           $package_name = 'policycoreutils-python'
         }
+        'Amazon': {
+          case $::operatingsystemmajrelease {
+            '2': {
+              $sx_fs_mount = '/sys/fs/selinux'
+              $package_name = 'policycoreutils-python'
+            }
+            '1': {
+              $sx_fs_mount = '/selinux'
+              $package_name = 'policycoreutils-python'
+            }
+            default: {
+              fail("${::operatingsystem}-${::operatingsystemmajrelease} is not supported")
+            }
+          }
+        }
         default: {
           case $::operatingsystemmajrelease {
             '7': {
